@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/StephFromAustin/Liri-Node-App#readme",
   "dependencies": {
+    "fs": "0.0.1-security",
     "init": "^0.1.2",
-    "node-spotify-api": "^1.0.7"
+    "node-spotify-api": "^1.0.7",
+    "request": "^2.88.0"
   }
 }
