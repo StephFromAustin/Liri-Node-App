@@ -27,7 +27,7 @@ let spotify = new Spotify(keys.spotify);
 
 //SPOTIFY FUNCTION 
 let spotifyThisSong= function(songName){
-    // LOAD SPOTIFY NPM PACKAGE (LOADED!!!)
+    // LOAD SPOTIFY NPM PACKAGE (THIS HAS BEEN LOADED, 10-11-18)
     let spotify = require('spotify');
     // REQUIRED DEFAULT SONG PER HOMEWORK INSTRUCTIONS
     if (songName === undefined) {
