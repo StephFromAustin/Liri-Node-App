@@ -1,6 +1,7 @@
 # Liri-Node-App
 
-## **OVERVIEW**: LIRI (Language Interpretation and Recognition Interface) is an app used in Terminal (mac) or Console Window (Windows) that allows you to set parameters and responds with data requested. 
+## **OVERVIEW**: 
+LIRI (Language Interpretation and Recognition Interface) is an app used in Terminal (Mac) or Console Window (Windows) that allows you to set parameters and responds with data requested. 
 
 ## **TECHNOLOGIES USED**: 
 *JavaScript
