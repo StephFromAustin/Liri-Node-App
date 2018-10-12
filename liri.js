@@ -9,8 +9,8 @@ let dataKeys = require("keys.js");
 // let spotify =  require("node-spotify-api"); => needs to be within the SPOTIFY function, delete before final master push 
 
 // COMMAND AND INPUT FUNCTION 
-let command = process.argv[2];
-let input = process.argv[3];
+// let command = process.argv[2];
+// let input = process.argv[3];
 
 //SPOTIFY FUNCTION: make it so liri.js can take inone of the follow commands: (spotify) => spotify-this-song
 
@@ -21,5 +21,8 @@ let spotifyThisSong= function(songName){
     if (songName === undefined) {
         songName = "The Sign Ace of Base";
     }
+
+    // SPOTIFY SEARCH 
+    spotify.search 
 
 }
