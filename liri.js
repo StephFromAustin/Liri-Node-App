@@ -1,4 +1,3 @@
-
 // DOTENV
 require("dotenv").config();
 // REQUIRE METHODS
@@ -47,14 +46,13 @@ const spotifyThisSong= function(songName){
     if (songName === undefined) {
         songName = "The+Sign+Ace+of+Base";
     }
-    console.log(songName);
     // SPOTIFY API REQUEST 
-    spotify.search({ type: 'tracks', query: songName}, function(err, data){
-        if(err) { 
-            console.log("Uh oh! Error! :" + err);
+    spotify.search({ type: 'track', query: songName}, function(error, data){
+        if(error) { 
+            return console.log("Uh oh! Error! :" + error);
         } else {
             for( let i = 0; i < data.tracks.items.length; i++){
-            console.log("Artist Name:   " + data.tracks.items[i].album.artist); // FIGURE OUT!
+            // console.log("Artist Name:   " + data.tracks.items[i].album.artist); // FIGURE OUT!
             console.log("Song Name:  " + data.tracks.items[i].name);
             console.log("Preview Link  " + data.tracks.items[i].preview_url);
             console.log("Album:   " + data.tracks.items[i].album.name);
@@ -139,10 +137,8 @@ const fileSaysDo = () => {
     // COMMAND CODES -- needs be 
 if (command === "spotify-this-song") {
     spotifyThisSong(userInput);
-    console.log('cool')
 } else if (command === "movie-this") {
     movieThis(userInput);
-    console.log('hello')
 } else if (command === "do-what-it-says") {
 	fileSaysDo();
 } else if (command === "do-what-it-says") {
