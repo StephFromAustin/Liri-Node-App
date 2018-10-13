@@ -68,7 +68,6 @@ let movieThis = (mov) => {
         mov = 'Baby Driver';
     }
     let search = "http://www.omdbapi.com/?apikey=" + keys.omdb.id+ "&t=" + mov + "&plot=short";
-    // let newSearch = `http://www.omdbapi.com/?apikey=${omdbKey.key}&s=${mov}`
 
     request(search, function (err, res, body) {
         if (err) {
@@ -77,16 +76,16 @@ let movieThis = (mov) => {
         } else {
             let data = JSON.parse(body);
             console.log(body)
-            // console.log("\n-------------------------------------------------------------\n \tMovie Info  \n-------------------------------------------------------------\n");
-            // console.log("Title: ") + data.Title;
-            // console.log("Year: ") + data.Year;
-            // console.log("IMDB Rating: ") + data.imdbRating;
-            // console.log("Rotten Tomatoes Rating: ") + data.Ratings[1].Value;
-            // console.log("County of Production: ") + data.Country;
-            // console.log("Language: ") + data.Language;
-            // console.log("Plot: ") + data.Plot;
-            // console.log("Actors: ") + data.Actors;
-            // console.log("\n-------------------------------------------------------------\n");
+            console.log("\n-------------------------------------------------------------\n \tMovie Info  \n-------------------------------------------------------------\n");
+            console.log("Title: ") + data.Title;
+            console.log("Year: ") + data.Year;
+            console.log("IMDB Rating: ") + data.imdbRating;
+            console.log("Rotten Tomatoes Rating: ") + data.Ratings[1].Value;
+            console.log("County of Production: ") + data.Country;
+            console.log("Language: ") + data.Language;
+            console.log("Plot: ") + data.Plot;
+            console.log("Actors: ") + data.Actors;
+            console.log("\n-------------------------------------------------------------\n");
         }
     });
 }
@@ -94,7 +93,7 @@ let movieThis = (mov) => {
 
 
 // BANDS IN TOWN FUNCTION 
-let BandEvnt = (band) => {
+let BandsIT = (band) => {
     //DEFAULT BAND
     if (band === 'undefined') {
         band = 'Chance+The+Rapper';
@@ -141,8 +140,8 @@ if (command === "spotify-this-song") {
     movieThis(userInput);
 } else if (command === "do-what-it-says") {
 	fileSaysDo();
-} else if (command === "do-what-it-says") {
-	fileSaysDo();
+} else if (command === "concert-this") {
+	BandsIT();
 } else {
 	console.log("I'm sorry, I don't understand. Please tell me a command:\nspotify-this-song \nmovie-this \ndo-what-it-says");
 }
