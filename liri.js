@@ -52,7 +52,7 @@ const spotifyThisSong= function(songName){
             return console.log("Uh oh! Error! :" + error);
         } else {
             for( let i = 0; i < data.tracks.items.length; i++){
-            // console.log("Artist Name:   " + data.tracks.items[i].album.artist); // FIGURE OUT!
+            console.log("Artist Name:   " + data.tracks.items[i].album.artists[0].name); // FIGURE OUT!
             console.log("Song Name:  " + data.tracks.items[i].name);
             console.log("Preview Link  " + data.tracks.items[i].preview_url);
             console.log("Album:   " + data.tracks.items[i].album.name);
