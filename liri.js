@@ -22,7 +22,6 @@ let spotify = new Spotify(keys.spotify);
 
 
 
-
 //SPOTIFY FUNCTION 
 const spotifyThisSong= function(songName){
     // let songName; DOES NOT NEED TO BE DEFINED GLOBALLY 
@@ -47,7 +46,40 @@ const spotifyThisSong= function(songName){
     });
 }
 
+// OMDb FUNCTION 
+let movieThis = function(movieQuery) {
+	// Load request npm module
+	let request = require("request");
 
+	// if query that is passed in is undefined, Mr. Nobody becomes the default
+	if(movieQuery === undefined) {
+		movieQuery = "mr nobody";
+	}
+
+	// HTTP GET request
+	request("http://www.omdbapi.com/?t=" + movieQuery + "&y=&plot=short&r=json", function(error, response, body) {
+	  if (!error && response.statusCode === 200) {
+	    console.log("* Title of the movie:         " + JSON.parse(body).Title);
+	    console.log("* Year the movie came out:    " + JSON.parse(body).Year);
+	    console.log("* IMDB Rating of the movie:   " + JSON.parse(body).imdbRating);
+	    console.log("* Country produced:           " + JSON.parse(body).Country);
+	    console.log("* Language of the movie:      " + JSON.parse(body).Language);
+	    console.log("* Plot of the movie:          " + JSON.parse(body).Plot);
+	    console.log("* Actors in the movie:        " + JSON.parse(body).Actors);
+
+	    // For loop parses through Ratings object to see if there is a RT rating
+	    // 	--> and if there is, it will print it
+	    for(var i = 0; i < JSON.parse(body).Ratings.length; i++) {
+	    	if(JSON.parse(body).Ratings[i].Source === "Rotten Tomatoes") {
+	    		console.log("* Rotten Tomatoes Rating:     " + JSON.parse(body).Ratings[i].Value);
+	    		if(JSON.parse(body).Ratings[i].Website !== undefined) {
+	    			console.log("* Rotten Tomatoes URL:        " + JSON.parse(body).Ratings[i].Website);
+	    		}
+	    	}
+	    }
+	  }
+	});
+}
 
 // COMMAND CODES 
 if (command === "spotify-this-song") {
@@ -59,5 +91,5 @@ if (command === "spotify-this-song") {
 } else if (command === "do-what-it-says") {
 	fileSaysDo();
 } else {
-	console.log("I'm sorry, I don't understand. Please tell me a command: \nmy-tweets \nspotify-this-song \nmovie-this \ndo-what-it-says");
+	console.log("I'm sorry, I don't understand. Please tell me a command:\nspotify-this-song \nmovie-this \ndo-what-it-says");
 }
