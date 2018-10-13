@@ -6,9 +6,9 @@ const keys = require("./keys"); // KEYS.JS FILE
 let fs = require("fs"); // FILE SYSTEM
 let Spotify = require("node-spotify-api"); // Spotify 
 let OMDb = require('request'); // OMDb 
-let Bands = require ('bandsintown');
-    // possible bands in town code: 
-        // let moment = require('moment');
+let Bands = require('bandsintown');
+// possible bands in town code: 
+// let moment = require('moment');
 
 //COMMAND AND INPUT FUNCTIONS
 let args = process.argv.slice(2);
@@ -27,18 +27,18 @@ let bands = keys.bands;
 //     id: keys.spotify.id,
 //     secret: <your spotify client secret>
 //   });
-   
+
 //   spotify.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
 //     if (err) {
 //       return console.log('Error occurred: ' + err);
 //     }
-   
+
 //   console.log(data); 
 //   });
 
 
 //SPOTIFY FUNCTION 
-const spotifyThisSong= function(songName){
+const spotifyThisSong = function (songName) {
     // let songName; DOES NOT NEED TO BE DEFINED GLOBALLY 
     // LOAD SPOTIFY NPM PACKAGE (THIS HAS BEEN LOADED, 10-11-18)
     // const spotify = require('spotify'); USE SPOTIFY NODE PACKAGE 
@@ -47,15 +47,15 @@ const spotifyThisSong= function(songName){
         songName = "The+Sign+Ace+of+Base";
     }
     // SPOTIFY API REQUEST 
-    spotify.search({ type: 'track', query: songName}, function(error, data){
-        if(error) { 
+    spotify.search({ type: 'track', query: songName }, function (error, data) {
+        if (error) {
             return console.log("Uh oh! Error! :" + error);
         } else {
-            for( let i = 0; i < data.tracks.items.length; i++){
-            console.log("Artist Name:   " + data.tracks.items[i].album.artists[0].name); // FIGURE OUT!
-            console.log("Song Name:  " + data.tracks.items[i].name);
-            console.log("Preview Link  " + data.tracks.items[i].preview_url);
-            console.log("Album:   " + data.tracks.items[i].album.name);
+            for (let i = 0; i < data.tracks.items.length; i++) {
+                console.log("Artist Name:   " + data.tracks.items[i].album.artists[0].name); // FIGURE OUT!
+                console.log("Song Name:  " + data.tracks.items[i].name);
+                console.log("Preview Link  " + data.tracks.items[i].preview_url);
+                console.log("Album:   " + data.tracks.items[i].album.name);
             }
         }
     });
@@ -67,7 +67,7 @@ let movieThis = (mov) => {
     if (mov === 'undefined') {
         mov = 'Baby+Driver';
     }
-    let search = "http://www.omdbapi.com/?apikey=" + keys.omdb.id+ "&t=" + mov + "&plot=short";
+    let search = "http://www.omdbapi.com/?apikey=" + keys.omdb.id + "&t=" + mov + "&plot=short";
 
     request(search, function (err, res, body) {
         if (err) {
@@ -98,8 +98,8 @@ let BandsIT = (band) => {
     if (band === 'undefined') {
         band = 'Chance+The+Rapper';
     }
-    let search = "https://rest.bandsintown.com/artists/" + band + "/events?app_id=" + bands.id;
-    //request to the BandsInTown API
+    let search = "https://rest.bandsintown.com/artists/" + band + "/events?app_id=" + '3c5eb98e695dc304f85847f7a803873b';
+    //REQUEST TO BANDS IN TOWN API
     request(search, function (err, res, body) {
         if (err) {
             console.log("Uh Oh! Error! " + err);
@@ -111,8 +111,8 @@ let BandsIT = (band) => {
                 console.log("-------------------------------------------------------------\n");
                 console.log("Venue: ") + data[i].venue.name;
                 console.log("Location: ") + data[i].venue.city;
-                    let startTm = data[i].datetime;
-                    let date = moment(startTm).format('MMMM Do YYYY, h:mm:ss a');
+                let startTm = data[i].datetime;
+                let date = moment(startTm).format('MMMM Do YYYY, h:mm:ss a');
                 console.log("Date of Concert: ") + date;
                 console.log("\n-------------------------------------------------------------\n");
             }
@@ -122,29 +122,29 @@ let BandsIT = (band) => {
 
 //DO WHAT IT SAYS FUNCTION 
 const fileSaysDo = () => {
-    fs.readFile("random.txt", (err, data) =>{
-        if(err){
+    fs.readFile("random.txt", (err, data) => {
+        if (err) {
             console.log("Uh Oh! Error!: " + err);
         }
         let text = data.toString();
         data = text.split(",");
-        let command = data[0].trim();
-        let search = data[1].trim();
+        let command = data[i].trim();
+        let search = data[i].trim();
     });
 
 
-    // COMMAND CODES -- needs be 
-if (command === "spotify-this-song") {
-    spotifyThisSong(userInput);
-} else if (command === "movie-this") {
-    movieThis(userInput);
-} else if (command === "do-what-it-says") {
-	fileSaysDo();
-} else if (command === "concert-this") {
-	BandsIT();
-} else {
-	console.log("I'm sorry, I don't understand. Please tell me a command:\nspotify-this-song \nmovie-this \ndo-what-it-says");
-}
+    // COMMAND CODES -- NEEDS TO BE OUT OF THE FUNCTIONS AT THE BOTTOM 
+    if (command === "spotify-this-song") {
+        spotifyThisSong(userInput);
+    } else if (command === "movie-this") {
+        movieThis(userInput);
+    } else if (command === "do-what-it-says") {
+        fileSaysDo();
+    } else if (command === "concert-this") {
+        BandsIT();
+    } else {
+        console.log("I'm sorry, I don't understand. Please tell me a command:\nspotify-this-song \nmovie-this \ndo-what-it-says \nconcert-this");
+    }
 }
 
 fileSaysDo()
