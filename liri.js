@@ -65,7 +65,7 @@ const spotifyThisSong= function(songName){
 let movieThis = (mov) => {
     // DEFAULT MOVIE 
     if (mov === 'undefined') {
-        mov = 'Baby Driver';
+        mov = 'Baby+Driver';
     }
     let search = "http://www.omdbapi.com/?apikey=" + keys.omdb.id+ "&t=" + mov + "&plot=short";
 
