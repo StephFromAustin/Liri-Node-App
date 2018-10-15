@@ -3,7 +3,7 @@ require("dotenv").config();
 // REQUIRED REQUESTS
 const request = require("request");
 const keys = require("./keys"); // KEYS.JS FILE
-const moment = require("moment");// BANDS IN TOWN 
+const moment= require("moment");// BANDS IN TOWN 
 let fs = require("fs"); // FILE SYSTEM
 let Spotify = require("node-spotify-api"); // Spotify 
 let OMDb = require('request'); // OMDb 
@@ -67,7 +67,7 @@ let movieThis = (mov) => {
             console.log("IMDB Rating: " + data.imdbRating);
             console.log("Rotten Tomatoes Rating: " + data.Ratings[1].Value);
             console.log("County of Production: " + data.Country);
-            console.log("Language: " + data.Language);
+            console.log("Language: "+ data.Language);
             console.log("Plot: " + data.Plot);
             console.log("Actors: " + data.Actors);
             console.log("\n-------------------------------------------------------------\n");
@@ -106,34 +106,33 @@ let BandsIT = (band) => {
 
 //DO WHAT IT SAYS FUNCTION 
 const fileSaysDo = () => {
-    fs.readFile('random.txt', function (err, data) {
+    fs.readFile('random.txt', function  (err, data) {
         if (err) {
             console.log("Uh Oh! Error!: " + err);
         }
         let text = data.toString();
-
+    
         data = text.split(",");
-
+        
         command = data[0].trim();
         let search = data[1].trim();
         console.log(search);
         console.log(command);
 
-        // LOOP FOR WHAT IT SAYS FUNCTION 
-        if (command === "spotify-this-song") {
-            spotifyThisSong(search);
-        } else if (command === "movie-this") {
-            movieThis(search);
-        } else if (command === "concert-this") {
-            BandsIT(search);
-        } else {
-            console.log("I'm sorry, I don't understand. Please tell me a command:\nspotify-this-song \nmovie-this \ndo-what-it-says \nconcert-this");
-        }
+        // LOOPE FOR
+    if (command === "spotify-this-song") {
+        spotifyThisSong(search);
+    } else if (command === "movie-this") {
+        movieThis(search);
+    } else if (command === "concert-this") {
+        BandsIT(search);
+    } else {
+        console.log("I'm sorry, I don't understand. Please tell me a command:\nspotify-this-song \nmovie-this \ndo-what-it-says \nconcert-this");
+    }
     });
 
 }
 
-// COMMAND LOOP
 if (command === "spotify-this-song") {
     console.log("This is working")
     spotifyThisSong(userInput);
