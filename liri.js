@@ -1,14 +1,13 @@
 // DOTENV
 require("dotenv").config();
-// REQUIRE METHODS
+// REQUIRED REQUESTS
 const request = require("request");
 const keys = require("./keys"); // KEYS.JS FILE
+const moment = require("moment");// BANDS IN TOWN 
 let fs = require("fs"); // FILE SYSTEM
 let Spotify = require("node-spotify-api"); // Spotify 
 let OMDb = require('request'); // OMDb 
 let Bands = require('bandsintown');
-// possible bands in town code: 
-// let moment = require('moment');
 
 //COMMAND AND INPUT FUNCTIONS
 let args = process.argv.slice(2);
@@ -20,32 +19,18 @@ let userInput = args.slice(1).join("+");
 let spotify = new Spotify(keys.spotify);
 let omdbKey = keys.omdb;
 let bands = keys.bands;
-
-
-// TRYING TO GET SPOTIFY TO WORK 
-// var spotify = new Spotify({
-//     id: keys.spotify.id,
-//     secret: <your spotify client secret>
-//   });
-
-//   spotify.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
-//     if (err) {
-//       return console.log('Error occurred: ' + err);
-//     }
-
-//   console.log(data); 
-//   });
+console.log(userInput)
 
 
 //SPOTIFY FUNCTION 
-const spotifyThisSong = function (songName) {
-    // let songName; DOES NOT NEED TO BE DEFINED GLOBALLY 
-    // LOAD SPOTIFY NPM PACKAGE (THIS HAS BEEN LOADED, 10-11-18)
-    // const spotify = require('spotify'); USE SPOTIFY NODE PACKAGE 
+const spotifyThisSong = (songName) => {
+    console.log(typeof songName)
+
     // REQUIRED DEFAULT SONG PER HOMEWORK INSTRUCTIONS
-    if (songName === undefined) {
+    if (songName === "") {
         songName = "The+Sign+Ace+of+Base";
     }
+    console.log(songName);
     // SPOTIFY API REQUEST 
     spotify.search({ type: 'track', query: songName }, function (error, data) {
         if (error) {
@@ -64,40 +49,39 @@ const spotifyThisSong = function (songName) {
 //OMDb FUNCTION 
 let movieThis = (mov) => {
     // DEFAULT MOVIE 
-    if (mov === 'undefined') {
+    if (mov === "") {
         mov = 'Baby+Driver';
     }
     let search = "http://www.omdbapi.com/?apikey=" + keys.omdb.id + "&t=" + mov + "&plot=short";
-
+    // SEARCH 
     request(search, function (err, res, body) {
         if (err) {
             console.log("Uh Oh! Error!: " + err);
             return;
         } else {
             let data = JSON.parse(body);
-            console.log(body)
+            console.log(data)
             console.log("\n-------------------------------------------------------------\n \tMovie Info  \n-------------------------------------------------------------\n");
-            console.log("Title: ") + data.Title;
-            console.log("Year: ") + data.Year;
-            console.log("IMDB Rating: ") + data.imdbRating;
-            console.log("Rotten Tomatoes Rating: ") + data.Ratings[1].Value;
-            console.log("County of Production: ") + data.Country;
-            console.log("Language: ") + data.Language;
-            console.log("Plot: ") + data.Plot;
-            console.log("Actors: ") + data.Actors;
+            console.log("Title: " + data.Title);
+            console.log("Year: " + data.Year);
+            console.log("IMDB Rating: " + data.imdbRating);
+            console.log("Rotten Tomatoes Rating: " + data.Ratings[1].Value);
+            console.log("County of Production: " + data.Country);
+            console.log("Language: " + data.Language);
+            console.log("Plot: " + data.Plot);
+            console.log("Actors: " + data.Actors);
             console.log("\n-------------------------------------------------------------\n");
         }
     });
 }
 
-
-
 // BANDS IN TOWN FUNCTION 
 let BandsIT = (band) => {
     //DEFAULT BAND
-    if (band === 'undefined') {
+    if (band === "") {
         band = 'Chance+The+Rapper';
     }
+    // SEARCH 
     let search = "https://rest.bandsintown.com/artists/" + band + "/events?app_id=" + '3c5eb98e695dc304f85847f7a803873b';
     //REQUEST TO BANDS IN TOWN API
     request(search, function (err, res, body) {
@@ -109,11 +93,11 @@ let BandsIT = (band) => {
             console.log("\n-------------------------------------------------------------\n \t Concert \"" + band + "\" Info  \n-------------------------------------------------------------\n");
             for (let i = 0; i < data.length; i++) {
                 console.log("-------------------------------------------------------------\n");
-                console.log("Venue: ") + data[i].venue.name;
-                console.log("Location: ") + data[i].venue.city;
+                console.log("Venue: " + data[i].venue.name);
+                console.log("Location: " + data[i].venue.city);
                 let startTm = data[i].datetime;
                 let date = moment(startTm).format('MMMM Do YYYY, h:mm:ss a');
-                console.log("Date of Concert: ") + date;
+                console.log("Date of Concert: " + date);
                 console.log("\n-------------------------------------------------------------\n");
             }
         }
@@ -122,29 +106,44 @@ let BandsIT = (band) => {
 
 //DO WHAT IT SAYS FUNCTION 
 const fileSaysDo = () => {
-    fs.readFile("random.txt", (err, data) => {
+    fs.readFile('random.txt', function (err, data) {
         if (err) {
             console.log("Uh Oh! Error!: " + err);
         }
         let text = data.toString();
+
         data = text.split(",");
-        let command = data[i].trim();
-        let search = data[i].trim();
+
+        command = data[0].trim();
+        let search = data[1].trim();
+        console.log(search);
+        console.log(command);
+
+        // LOOP FOR WHAT IT SAYS FUNCTION 
+        if (command === "spotify-this-song") {
+            spotifyThisSong(search);
+        } else if (command === "movie-this") {
+            movieThis(search);
+        } else if (command === "concert-this") {
+            BandsIT(search);
+        } else {
+            console.log("I'm sorry, I don't understand. Please tell me a command:\nspotify-this-song \nmovie-this \ndo-what-it-says \nconcert-this");
+        }
     });
 
-
-    // COMMAND CODES -- NEEDS TO BE OUT OF THE FUNCTIONS AT THE BOTTOM 
-    if (command === "spotify-this-song") {
-        spotifyThisSong(userInput);
-    } else if (command === "movie-this") {
-        movieThis(userInput);
-    } else if (command === "do-what-it-says") {
-        fileSaysDo();
-    } else if (command === "concert-this") {
-        BandsIT();
-    } else {
-        console.log("I'm sorry, I don't understand. Please tell me a command:\nspotify-this-song \nmovie-this \ndo-what-it-says \nconcert-this");
-    }
 }
 
-fileSaysDo()
+// COMMAND LOOP
+if (command === "spotify-this-song") {
+    console.log("This is working")
+    spotifyThisSong(userInput);
+} else if (command === "movie-this") {
+    movieThis(userInput);
+} else if (command === "do-what-it-says") {
+    fileSaysDo();
+    console.log("testing");
+} else if (command === "concert-this") {
+    BandsIT(userInput);
+} else {
+    console.log("I'm sorry, I don't understand. Please tell me a command:\nspotify-this-song \nmovie-this \ndo-what-it-says \nconcert-this");
+}
